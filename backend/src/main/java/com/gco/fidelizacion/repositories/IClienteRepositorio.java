@@ -11,5 +11,5 @@ import com.gco.fidelizacion.models.Cliente;
 @Repository
 public interface IClienteRepositorio extends JpaRepository<Cliente, UUID>{
 
-    Boolean existsByTipoIdentificacion_IdAndNumeroIdentificacion(UUID id, String numero_identificacion);
+    Boolean existsByTipoIdentificacion_IdAndNumeroIdentificacion(UUID idTipoIdentificacion, String numeroIdentificacion);
 }
