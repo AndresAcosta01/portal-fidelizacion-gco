@@ -12,4 +12,6 @@ import com.gco.fidelizacion.models.Ciudad;
 public interface ICiudadRepositorio extends JpaRepository<Ciudad, UUID>{
 
     List<Ciudad> findByDepartamento_IdAndActivoTrue(UUID id);
+
+    Boolean existsByDepartamento_IdAndNombreIgnoreCase(UUID id, String nombre);
 }
