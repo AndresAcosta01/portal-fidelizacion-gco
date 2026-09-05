@@ -12,4 +12,6 @@ import com.gco.fidelizacion.models.TipoIdentificacion;
 public interface ITipoIdentificacionRepositorio extends JpaRepository<TipoIdentificacion, UUID>{
 
     List<TipoIdentificacion> findByActivoTrue();
+
+    Boolean existsByCodigoIgnoreCase(String codigo);
 }

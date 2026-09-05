@@ -12,4 +12,6 @@ import com.gco.fidelizacion.models.Marca;
 public interface IMarcaRepositorio extends JpaRepository<Marca, UUID>{
 
     List<Marca> findByActivoTrue();
+
+    Boolean existsByNombreIgnoreCase(String nombre);
 }

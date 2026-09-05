@@ -12,4 +12,6 @@ import com.gco.fidelizacion.models.Pais;
 public interface IPaisRepositorio extends JpaRepository<Pais, UUID>{
 
     List<Pais> findByActivoTrue();
+
+    Boolean existsByNombreIgnoreCase(String nombre);
 }
