@@ -24,7 +24,9 @@ public class ValidacionClienteImpl implements IValidacionCliente {
     @Override
     public void validarTipoIdentificacionObligatorio(TipoIdentificacion tipoIdentificacion) {
         if (tipoIdentificacion == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El tipo de identificacion es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El tipo de identificacion es obligatorio");
         }
     }
 
@@ -35,7 +37,8 @@ public class ValidacionClienteImpl implements IValidacionCliente {
                 .existsByTipoIdentificacion_IdAndNumeroIdentificacion(tipoIdentificacion.getId(), numeroIdentificacion);
 
         if (Boolean.TRUE.equals(existe)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
                     "Ya existe un cliente con ese tipo y número de identificación");
         }
     }
@@ -43,35 +46,44 @@ public class ValidacionClienteImpl implements IValidacionCliente {
     @Override
     public void validarNumeroIdentificacionObligatorio(String numeroIdentificacion) {
         if (numeroIdentificacion == null || numeroIdentificacion.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El número de identificacion es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El número de identificacion es obligatorio");
         }
     }
 
     @Override
     public void validarNombresObligatorios(String nombres) {
         if (nombres == null || nombres.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El nombre es obligatorio");
         }
     }
 
     @Override
     public void validarApellidosObligatorios(String apellidos) {
         if (apellidos == null || apellidos.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El apellido es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El apellido es obligatorio");
         }
     }
 
     @Override
     public void validarFechaNacimientoObligatoria(LocalDate fechaNacimiento) {
         if (fechaNacimiento == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha de nacimiento es obligatoria");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "La fecha de nacimiento es obligatoria");
         }
     }
 
     @Override
     public void validarFechaNacimientoNoFutura(LocalDate fechaNacimiento) {
         if (fechaNacimiento != null && fechaNacimiento.isAfter(LocalDate.now())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
                     "La fecha de nacimiento no puede ser una fecha futura");
         }
     }
@@ -79,21 +91,27 @@ public class ValidacionClienteImpl implements IValidacionCliente {
     @Override
     public void validarCiudadObligatoria(Ciudad ciudad) {
         if (ciudad == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La ciudad es obligatoria");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "La ciudad es obligatoria");
         }
     }
 
     @Override
     public void validarDireccionObligatoria(String direccion) {
         if (direccion == null || direccion.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La dirección es obligatoria");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "La dirección es obligatoria");
         }
     }
 
     @Override
     public void validarMarcaObligatoria(Marca marca) {
         if (marca == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La marca es obligatoria");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "La marca es obligatoria");
         }
     }
 

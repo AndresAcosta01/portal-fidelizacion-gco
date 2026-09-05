@@ -19,17 +19,21 @@ public class ValidacionTipoIdentificacionImpl implements IValidacionTipoIdentifi
     @Override
     public void validarCodigoObligatorio(String codigo) {
         if (codigo == null || codigo.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El codigo es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El codigo es obligatorio");
         }
     }
 
     @Override
     public void validarCodigoNoDuplicado(String codigo) {
 
-        Boolean existe = repositorioTipoIdentificacion.existsByCodigoIgnoreCase(codigo);
+        Boolean existe = repositorioTipoIdentificacion
+                .existsByCodigoIgnoreCase(codigo);
 
         if (Boolean.TRUE.equals(existe)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
                     "Ya existe un tipo de identificacion con ese codigo");
         }
     }
@@ -37,14 +41,18 @@ public class ValidacionTipoIdentificacionImpl implements IValidacionTipoIdentifi
     @Override
     public void validarNombreObligatorio(String nombre) {
         if (nombre == null || nombre.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El nombre es obligatorio");
         }
     }
 
     @Override
     public void validarActivoObligatorio(Boolean activo) {
         if (activo == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El campo activo es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El campo activo es obligatorio");
         }
     }
 

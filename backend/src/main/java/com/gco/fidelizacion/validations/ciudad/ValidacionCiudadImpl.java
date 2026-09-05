@@ -20,31 +20,39 @@ public class ValidacionCiudadImpl implements IValidacionCiudad {
     @Override
     public void validarNombreObligatorio(String nombre) {
         if (nombre == null || nombre.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El nombre es obligatorio");
         }
     }
 
     @Override
     public void validarActivoObligatorio(Boolean activo) {
         if (activo == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El campo activo es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El campo activo es obligatorio");
         }
     }
 
     @Override
     public void validarDepartamentoObligatorio(Departamento departamento) {
         if (departamento == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El departamento es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El departamento es obligatorio");
         }
     }
 
     @Override
     public void validarCiudadNoDuplicada(Departamento departamento, String nombre) {
 
-        Boolean existe = repositorioCiudad.existsByDepartamento_IdAndNombreIgnoreCase(departamento.getId(), nombre);
+        Boolean existe = repositorioCiudad
+                .existsByDepartamento_IdAndNombreIgnoreCase(departamento.getId(), nombre);
 
         if (Boolean.TRUE.equals(existe)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
                     "Ya existe la ciudad con ese nombre en el departamento seleccionado");
         }
     }

@@ -20,31 +20,40 @@ public class ValidacionDepartamentoImpl implements IValidacionDepartamento {
     @Override
     public void validarNombreObligatorio(String nombre) {
         if (nombre == null || nombre.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El nombre es obligatorio");
         }
     }
 
     @Override
     public void validarActivoObligatorio(Boolean activo) {
         if (activo == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El campo activo es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El campo activo es obligatorio");
         }
     }
 
     @Override
     public void validarPaisObligatorio(Pais pais) {
         if (pais == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El pais es obligatorio");
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El pais es obligatorio");
         }
     }
 
     @Override
     public void validarDepartamentoNoDuplicado(Pais pais, String nombre) {
 
-        Boolean existe = repositorioDepartamento.existsByPais_IdAndNombreIgnoreCase(pais.getId(), nombre);
+        Boolean existe = repositorioDepartamento
+                .existsByPais_IdAndNombreIgnoreCase(pais.getId(), nombre);
 
         if (Boolean.TRUE.equals(existe)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe un departamento con ese nombre en el pais seleccionado");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Ya existe un departamento con ese nombre en el pais seleccionado");
         }
     }
 
