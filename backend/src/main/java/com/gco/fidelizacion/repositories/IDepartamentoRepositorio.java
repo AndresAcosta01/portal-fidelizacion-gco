@@ -11,7 +11,7 @@ import com.gco.fidelizacion.models.Departamento;
 @Repository
 public interface IDepartamentoRepositorio extends JpaRepository<Departamento, UUID>{
 
-    List<Departamento> findByPais_IdAndActivoTrue(UUID id);
+    List<Departamento> findByPais_IdAndActivoTrue(UUID idPais);
 
-    Boolean existsByPais_IdAndNombreIgnoreCase(UUID id, String nombre);
+    Boolean existsByPais_IdAndNombreIgnoreCase(UUID idPais, String nombre);
 }
