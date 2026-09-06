@@ -92,6 +92,19 @@ public class ServicioClienteImpl implements IServicioCliente {
         }
 
         @Override
+        public ClienteResponseDTO buscarPorDocumento(UUID idTipoIdentificacion, String numeroIdentificacion) {
+
+                Cliente cliente = repositorioCliente
+                                .findByTipoIdentificacion_IdAndNumeroIdentificacion(idTipoIdentificacion,
+                                                numeroIdentificacion)
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND,
+                                                "No se encontró el cliente"));
+
+                return ClienteResponseDTO.fromEntity(cliente);
+        }
+
+        @Override
         public ClienteResponseDTO actualizar(UUID id, ClienteRequestDTO dto) {
 
                 Cliente cliente = repositorioCliente.findById(id)

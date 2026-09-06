@@ -14,6 +14,8 @@ public interface IServicioCliente {
 
     ClienteResponseDTO buscarPorId(UUID id);
 
+    ClienteResponseDTO buscarPorDocumento(UUID idTipoIdentificacion, String numeroIdentificacion);
+
     ClienteResponseDTO actualizar(UUID id, ClienteRequestDTO dto);
 
     void eliminar(UUID id);
