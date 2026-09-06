@@ -14,4 +14,6 @@ public interface IMarcaRepositorio extends JpaRepository<Marca, UUID>{
     List<Marca> findByActivoTrue();
 
     Boolean existsByNombreIgnoreCase(String nombre);
+
+    Boolean existsByNombreIgnoreCaseAndIdNot(String nombre, UUID idMarca);
 }

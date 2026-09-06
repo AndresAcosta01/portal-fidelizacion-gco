@@ -1,5 +1,7 @@
 package com.gco.fidelizacion.validations.marca;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,6 +47,33 @@ public class ValidacionMarcaImpl implements IValidacionMarca {
                     HttpStatus.BAD_REQUEST,
                     "El campo activo es obligatorio");
         }
+    }
+
+    @Override
+    public void validarNombreNoDuplicadoActualizacion(String nombre, UUID idMarca) {
+
+        Boolean existe = repositorioMarca
+                .existsByNombreIgnoreCaseAndIdNot(nombre, idMarca);
+
+        if (Boolean.TRUE.equals(existe)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Ya existe una marca con ese nombre");
+        }
+    }
+
+    @Override
+    public void validarMarcaActualizacion(UUID idMarca, Marca marca) {
+
+        if (marca == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "La marca es obligatoria");
+        }
+
+        validarNombreObligatorio(marca.getNombre());
+        validarActivoObligatorio(marca.getActivo());
+        validarNombreNoDuplicadoActualizacion(marca.getNombre(), idMarca);
     }
 
     @Override
