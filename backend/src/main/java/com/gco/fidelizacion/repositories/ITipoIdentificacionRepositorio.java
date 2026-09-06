@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.gco.fidelizacion.models.TipoIdentificacion;
 
 @Repository
-public interface ITipoIdentificacionRepositorio extends JpaRepository<TipoIdentificacion, UUID>{
+public interface ITipoIdentificacionRepositorio extends JpaRepository<TipoIdentificacion, UUID> {
 
     List<TipoIdentificacion> findByActivoTrue();
 
     Boolean existsByCodigoIgnoreCase(String codigo);
+
+    Boolean existsByCodigoIgnoreCaseAndIdNot(String codigo, UUID idTipoIdentificacion);
 }

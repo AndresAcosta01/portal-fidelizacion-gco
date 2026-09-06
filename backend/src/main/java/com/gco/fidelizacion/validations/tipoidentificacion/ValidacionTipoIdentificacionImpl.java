@@ -1,5 +1,7 @@
 package com.gco.fidelizacion.validations.tipoidentificacion;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -57,6 +59,39 @@ public class ValidacionTipoIdentificacionImpl implements IValidacionTipoIdentifi
     }
 
     @Override
+    public void validarCodigoNoDuplicadoActualizacion(String codigo, UUID idTipoIdentificacion) {
+
+        Boolean existe = repositorioTipoIdentificacion
+                .existsByCodigoIgnoreCaseAndIdNot(codigo, idTipoIdentificacion);
+
+        if (Boolean.TRUE.equals(existe)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Ya existe un tipo de identificación con ese código");
+        }
+    }
+
+    private void validarCamposBasicos(TipoIdentificacion tipoIdentificacion) {
+        validarCodigoObligatorio(tipoIdentificacion.getCodigo());
+        validarNombreObligatorio(tipoIdentificacion.getNombre());
+        validarActivoObligatorio(tipoIdentificacion.getActivo());
+    }
+
+    @Override
+    public void validarTipoIdentificacionActualizacion(UUID idTipoIdentificacion,
+            TipoIdentificacion tipoIdentificacion) {
+
+        if (tipoIdentificacion == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El tipo de identificación es obligatorio");
+        }
+
+        validarCamposBasicos(tipoIdentificacion);
+        validarCodigoNoDuplicadoActualizacion(tipoIdentificacion.getCodigo(), idTipoIdentificacion);
+    }
+
+    @Override
     public void validarTipoIdentificacion(TipoIdentificacion tipoIdentificacion) {
         if (tipoIdentificacion == null) {
             throw new ResponseStatusException(
@@ -64,9 +99,7 @@ public class ValidacionTipoIdentificacionImpl implements IValidacionTipoIdentifi
                     "El tipo de identificacion es obligatorio");
         }
 
-        validarCodigoObligatorio(tipoIdentificacion.getCodigo());
-        validarNombreObligatorio(tipoIdentificacion.getNombre());
-        validarActivoObligatorio(tipoIdentificacion.getActivo());
+        validarCamposBasicos(tipoIdentificacion);
         validarCodigoNoDuplicado(tipoIdentificacion.getCodigo());
     }
 
