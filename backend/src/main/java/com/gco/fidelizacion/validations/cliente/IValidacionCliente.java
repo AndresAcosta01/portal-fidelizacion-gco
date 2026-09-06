@@ -1,6 +1,7 @@
 package com.gco.fidelizacion.validations.cliente;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.gco.fidelizacion.models.Ciudad;
 import com.gco.fidelizacion.models.Cliente;
@@ -30,4 +31,8 @@ public interface IValidacionCliente {
     void validarMarcaObligatoria(Marca marca);
 
     void validarCliente(Cliente cliente);
+
+    void validarClienteActualizacion(UUID idCliente, Cliente cliente);
+
+    void validarIdentificacionNoDuplicadaActualizacion(UUID idCliente, TipoIdentificacion tipoIdentificacion, String numeroIdentificacion);
 }
