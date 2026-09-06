@@ -14,4 +14,6 @@ public interface IPaisRepositorio extends JpaRepository<Pais, UUID>{
     List<Pais> findByActivoTrue();
 
     Boolean existsByNombreIgnoreCase(String nombre);
+
+    Boolean existsByNombreIgnoreCaseAndIdNot(String nombre, UUID idPais);
 }
