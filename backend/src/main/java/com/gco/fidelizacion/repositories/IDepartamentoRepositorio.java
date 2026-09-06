@@ -14,4 +14,6 @@ public interface IDepartamentoRepositorio extends JpaRepository<Departamento, UU
     List<Departamento> findByPais_IdAndActivoTrue(UUID idPais);
 
     Boolean existsByPais_IdAndNombreIgnoreCase(UUID idPais, String nombre);
+
+    Boolean existsByPais_IdAndNombreIgnoreCaseAndIdNot(UUID idPais, String nombre, UUID idDepartamento);
 }
