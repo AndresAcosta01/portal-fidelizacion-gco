@@ -1,5 +1,7 @@
 package com.gco.fidelizacion.validations.pais;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,6 +47,33 @@ public class ValidacionPaisImpl implements IValidacionPais {
                     HttpStatus.BAD_REQUEST,
                     "El campo activo es obligatorio");
         }
+    }
+
+    @Override
+    public void validarNombreNoDuplicadoActualizacion(String nombre, UUID idPais) {
+
+        Boolean existe = repositorioPais
+                .existsByNombreIgnoreCaseAndIdNot(nombre, idPais);
+
+        if (Boolean.TRUE.equals(existe)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Ya existe un país con ese nombre");
+        }
+    }
+
+    @Override
+    public void validarPaisActualizacion(UUID idPais, Pais pais) {
+
+        if (pais == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El país es obligatorio");
+        }
+
+        validarNombreObligatorio(pais.getNombre());
+        validarActivoObligatorio(pais.getActivo());
+        validarNombreNoDuplicadoActualizacion(pais.getNombre(), idPais);
     }
 
     @Override

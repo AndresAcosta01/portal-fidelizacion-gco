@@ -1,5 +1,7 @@
 package com.gco.fidelizacion.validations.departamento;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -58,6 +60,38 @@ public class ValidacionDepartamentoImpl implements IValidacionDepartamento {
     }
 
     @Override
+    public void validarDepartamentoNoDuplicadoActualizacion(Pais pais, String nombre, UUID idDepartamento) {
+
+        Boolean existe = repositorioDepartamento
+                .existsByPais_IdAndNombreIgnoreCaseAndIdNot(pais.getId(), nombre, idDepartamento);
+
+        if (Boolean.TRUE.equals(existe)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Ya existe un departamento con ese nombre en el país seleccionado");
+        }
+    }
+
+    private void validarCamposBasicos(Departamento departamento) {
+        validarNombreObligatorio(departamento.getNombre());
+        validarActivoObligatorio(departamento.getActivo());
+        validarPaisObligatorio(departamento.getPais());
+    }
+
+    @Override
+    public void validarDepartamentoActualizacion(UUID idDepartamento, Departamento departamento) {
+
+        if (departamento == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El departamento es obligatorio");
+        }
+
+        validarCamposBasicos(departamento);
+        validarDepartamentoNoDuplicadoActualizacion(departamento.getPais(), departamento.getNombre(), idDepartamento);
+    }
+
+    @Override
     public void validarDepartamento(Departamento departamento) {
         if (departamento == null) {
             throw new ResponseStatusException(
@@ -65,9 +99,7 @@ public class ValidacionDepartamentoImpl implements IValidacionDepartamento {
                     "El departamento es obligatorio");
         }
 
-        validarNombreObligatorio(departamento.getNombre());
-        validarActivoObligatorio(departamento.getActivo());
-        validarPaisObligatorio(departamento.getPais());
+        validarCamposBasicos(departamento);
         validarDepartamentoNoDuplicado(departamento.getPais(), departamento.getNombre());
     }
 }

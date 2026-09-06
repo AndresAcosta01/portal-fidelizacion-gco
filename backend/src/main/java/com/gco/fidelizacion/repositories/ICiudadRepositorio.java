@@ -14,4 +14,6 @@ public interface ICiudadRepositorio extends JpaRepository<Ciudad, UUID>{
     List<Ciudad> findByDepartamento_IdAndActivoTrue(UUID idDepartamento);
 
     Boolean existsByDepartamento_IdAndNombreIgnoreCase(UUID idDepartamento, String nombre);
+
+    Boolean existsByDepartamento_IdAndNombreIgnoreCaseAndIdNot(UUID idDepartamento, String nombre, UUID idCiudad);
 }

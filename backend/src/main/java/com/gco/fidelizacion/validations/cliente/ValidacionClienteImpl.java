@@ -1,6 +1,7 @@
 package com.gco.fidelizacion.validations.cliente;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -116,12 +117,22 @@ public class ValidacionClienteImpl implements IValidacionCliente {
     }
 
     @Override
-    public void validarCliente(Cliente cliente) {
-        if (cliente == null) {
+    public void validarIdentificacionNoDuplicadaActualizacion(UUID idCliente, TipoIdentificacion tipoIdentificacion,
+            String numeroIdentificacion) {
+
+        Boolean existe = repositorioCliente
+                .existsByTipoIdentificacion_IdAndNumeroIdentificacionAndIdNot(tipoIdentificacion.getId(),
+                        numeroIdentificacion, idCliente);
+
+        if (Boolean.TRUE.equals(existe)) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "El cliente es obligatorio");
+                    HttpStatus.CONFLICT,
+                    "Ya existe un cliente con ese tipo y número de identificación");
         }
+    }
+
+    private void validarCamposBasicos(Cliente cliente) {
+
         validarTipoIdentificacionObligatorio(cliente.getTipoIdentificacion());
         validarNumeroIdentificacionObligatorio(cliente.getNumeroIdentificacion());
         validarNombresObligatorios(cliente.getNombres());
@@ -131,7 +142,33 @@ public class ValidacionClienteImpl implements IValidacionCliente {
         validarCiudadObligatoria(cliente.getCiudad());
         validarDireccionObligatoria(cliente.getDireccion());
         validarMarcaObligatoria(cliente.getMarca());
+    }
+
+    @Override
+    public void validarCliente(Cliente cliente) {
+
+        if (cliente == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El cliente es obligatorio");
+        }
+
+        validarCamposBasicos(cliente);
+
         validarIdentificacionNoDuplicada(cliente.getTipoIdentificacion(), cliente.getNumeroIdentificacion());
     }
 
+    @Override
+    public void validarClienteActualizacion(UUID idCliente, Cliente cliente) {
+
+        if (cliente == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "El cliente es obligatorio");
+        }
+
+        validarCamposBasicos(cliente);
+        validarIdentificacionNoDuplicadaActualizacion(idCliente, cliente.getTipoIdentificacion(),
+                cliente.getNumeroIdentificacion());
+    }
 }

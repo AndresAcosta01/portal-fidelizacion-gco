@@ -7,9 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import com.gco.fidelizacion.models.Cliente;
 
-
 @Repository
-public interface IClienteRepositorio extends JpaRepository<Cliente, UUID>{
+public interface IClienteRepositorio extends JpaRepository<Cliente, UUID> {
 
     Boolean existsByTipoIdentificacion_IdAndNumeroIdentificacion(UUID idTipoIdentificacion, String numeroIdentificacion);
+
+    Boolean existsByTipoIdentificacion_IdAndNumeroIdentificacionAndIdNot(UUID idTipoIdentificacion, String numeroIdentificacion, UUID idCliente);
 }
