@@ -168,10 +168,7 @@ public class ValidacionClienteImpl implements IValidacionCliente {
         }
 
         validarCamposBasicos(cliente);
-
-        validarIdentificacionNoDuplicadaActualizacion(
-                idCliente,
-                cliente.getTipoIdentificacion(),
+        validarIdentificacionNoDuplicadaActualizacion(idCliente, cliente.getTipoIdentificacion(),
                 cliente.getNumeroIdentificacion());
     }
 }

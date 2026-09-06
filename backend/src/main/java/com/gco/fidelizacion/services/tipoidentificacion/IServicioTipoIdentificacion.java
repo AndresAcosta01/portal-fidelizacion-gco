@@ -9,8 +9,12 @@ import com.gco.fidelizacion.dtos.tipoidentificacion.TipoIdentificacionResponseDT
 public interface IServicioTipoIdentificacion {
 
     TipoIdentificacionResponseDTO crear(TipoIdentificacionRequestDTO dto);
+
     List<TipoIdentificacionResponseDTO> listar();
+
     TipoIdentificacionResponseDTO buscarPorId(UUID id);
+
     TipoIdentificacionResponseDTO actualizar(UUID id, TipoIdentificacionRequestDTO dto);
+
     void eliminar(UUID id);
 }

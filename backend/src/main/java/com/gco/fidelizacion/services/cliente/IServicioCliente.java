@@ -9,8 +9,12 @@ import com.gco.fidelizacion.dtos.cliente.ClienteResponseDTO;
 public interface IServicioCliente {
 
     ClienteResponseDTO crear(ClienteRequestDTO dto);
+
     List<ClienteResponseDTO> listar();
+
     ClienteResponseDTO buscarPorId(UUID id);
+
     ClienteResponseDTO actualizar(UUID id, ClienteRequestDTO dto);
+
     void eliminar(UUID id);
 }

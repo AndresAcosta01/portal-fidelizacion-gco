@@ -17,7 +17,7 @@ public interface IValidacionCiudad {
 
     void validarCiudad(Ciudad ciudad);
 
-    void validarCiudadActualizacion(UUID idCiudad , Ciudad ciudad);
+    void validarCiudadActualizacion(UUID idCiudad, Ciudad ciudad);
 
     void validarCiudadNoDuplicadaActualizacion(UUID idCiudad, Departamento departamento, String nombre);
 }

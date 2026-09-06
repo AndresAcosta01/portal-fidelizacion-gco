@@ -9,9 +9,13 @@ import com.gco.fidelizacion.dtos.pais.PaisResponseDTO;
 public interface IServicioPais {
 
     PaisResponseDTO crear(PaisRequestDTO dto);
+
     List<PaisResponseDTO> listar();
+
     PaisResponseDTO buscarPorId(UUID id);
+
     PaisResponseDTO actualizar(UUID id, PaisRequestDTO dto);
+
     void eliminar(UUID id);
 
 }

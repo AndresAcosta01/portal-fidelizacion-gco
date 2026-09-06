@@ -9,8 +9,12 @@ import com.gco.fidelizacion.dtos.departamento.DepartamentoResponseDTO;
 public interface IServicioDepartamento {
 
     DepartamentoResponseDTO crear(DepartamentoRequestDTO dto);
+
     List<DepartamentoResponseDTO> listar();
+
     DepartamentoResponseDTO buscarPorId(UUID id);
+
     DepartamentoResponseDTO actualizar(UUID id, DepartamentoRequestDTO dto);
+
     void eliminar(UUID id);
 }
