@@ -1,22 +1,13 @@
 <div [formGroup]="formulario()" class="grid gap-6 sm:grid-cols-2">
-
     <div>
-        <label for="pais" class="text-sm font-semibold text-black">
+        <label class="text-sm font-semibold text-black">
             País
         </label>
 
-        <select id="pais" formControlName="idPais" (change)="cambiarPais()"
-            class="mt-2 w-full border border-black/15 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#C6A66B]">
-            <option value="">
-                Selecciona un país
-            </option>
-
-            @for (pais of paises(); track pais.id) {
-            <option [value]="pais.id">
-                {{ pais.nombre }}
-            </option>
-            }
-        </select>
+        <div class="mt-2">
+            <app-selector-buscable [opciones]="paises()" placeholder="Selecciona o busca un país"
+                (seleccion)="seleccionarPais($event)"></app-selector-buscable>
+        </div>
 
         @if (campoInvalido('idPais')) {
         <p class="mt-2 text-xs text-red-600">
@@ -26,22 +17,15 @@
     </div>
 
     <div>
-        <label for="departamento" class="text-sm font-semibold text-black">
+        <label class="text-sm font-semibold text-black">
             Departamento
         </label>
 
-        <select id="departamento" formControlName="idDepartamento" (change)="cambiarDepartamento()"
-            class="mt-2 w-full border border-black/15 bg-white px-4 py-3 text-sm outline-none transition disabled:cursor-not-allowed disabled:bg-black/5 disabled:text-black/30 focus:border-[#C6A66B]">
-            <option value="">
-                Selecciona un departamento
-            </option>
-
-            @for (departamento of departamentosFiltrados; track departamento.id) {
-            <option [value]="departamento.id">
-                {{ departamento.nombre }}
-            </option>
-            }
-        </select>
+        <div class="mt-2">
+            <app-selector-buscable [opciones]="departamentos()" placeholder="Selecciona o busca un departamento"
+                [deshabilitado]="formulario().get('idDepartamento')?.disabled ?? true"
+                (seleccion)="seleccionarDepartamento($event)"></app-selector-buscable>
+        </div>
 
         @if (campoInvalido('idDepartamento')) {
         <p class="mt-2 text-xs text-red-600">
@@ -51,22 +35,15 @@
     </div>
 
     <div class="sm:col-span-2">
-        <label for="ciudad" class="text-sm font-semibold text-black">
+        <label class="text-sm font-semibold text-black">
             Ciudad
         </label>
 
-        <select id="ciudad" formControlName="idCiudad"
-            class="mt-2 w-full border border-black/15 bg-white px-4 py-3 text-sm outline-none transition disabled:cursor-not-allowed disabled:bg-black/5 disabled:text-black/30 focus:border-[#C6A66B]">
-            <option value="">
-                Selecciona una ciudad
-            </option>
-
-            @for (ciudad of ciudadesFiltradas; track ciudad.id) {
-            <option [value]="ciudad.id">
-                {{ ciudad.nombre }}
-            </option>
-            }
-        </select>
+        <div class="mt-2">
+            <app-selector-buscable [opciones]="ciudades()" placeholder="Selecciona o busca una ciudad"
+                [deshabilitado]="formulario().get('idCiudad')?.disabled ?? true"
+                (seleccion)="seleccionarCiudad($event)"></app-selector-buscable>
+        </div>
 
         @if (campoInvalido('idCiudad')) {
         <p class="mt-2 text-xs text-red-600">
@@ -74,5 +51,4 @@
         </p>
         }
     </div>
-
 </div>

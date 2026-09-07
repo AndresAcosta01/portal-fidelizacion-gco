@@ -1,0 +1,35 @@
+<div class="relative">
+    <input type="text" [value]="texto()" [placeholder]="placeholder()" [disabled]="deshabilitado()" autocomplete="off"
+        (input)="escribir($event)" (focus)="abrir()" (keydown.enter)="seleccionarPrimera($event)"
+        (keydown.escape)="cerrar()"
+        class="w-full border border-black/15 bg-white px-4 py-3 pr-20 text-sm outline-none transition disabled:cursor-not-allowed disabled:bg-black/5 disabled:text-black/30 focus:border-[#C6A66B]">
+
+    @if (texto() && !deshabilitado()) {
+    <button type="button" (mousedown)="$event.preventDefault()" (click)="limpiar()"
+        class="absolute right-10 top-0 flex h-full w-9 items-center justify-center text-lg text-black/50 transition hover:text-black">
+        ×
+    </button>
+    }
+
+    <button type="button" [disabled]="deshabilitado()" (click)="abierto() ? cerrar() : abrir()"
+        class="absolute right-0 top-0 flex h-full w-10 items-center justify-center disabled:cursor-not-allowed">
+        <span class="h-2 w-2 rotate-45 border-b-2 border-r-2 border-black"></span>
+    </button>
+
+    @if (abierto() && !deshabilitado()) {
+    <div class="absolute z-30 mt-1 max-h-60 w-full overflow-y-auto border border-black/10 bg-white shadow-lg">
+        @for (opcion of opcionesFiltradas(); track opcion.id) {
+        <button type="button" (mousedown)="$event.preventDefault()" (click)="seleccionar(opcion)"
+            class="block w-full px-4 py-3 text-left text-sm text-black transition hover:bg-black/5">
+            {{ opcion.nombre }}
+        </button>
+        }
+
+        @if (opcionesFiltradas().length === 0) {
+        <p class="px-4 py-3 text-sm text-black/40">
+            No se encontraron resultados.
+        </p>
+        }
+    </div>
+    }
+</div>

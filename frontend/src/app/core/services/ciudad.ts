@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { environment } from '../../../environments/environment';
-
 
 export interface CiudadRespuesta {
   id: string;
@@ -12,24 +10,16 @@ export interface CiudadRespuesta {
   idDepartamento: string;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class Ciudad {
-
   private readonly http = inject(HttpClient);
+  private readonly url = `${environment.apiUrl}/ciudades`;
 
-  private readonly url =
-    `${environment.apiUrl}/ciudades`;
-
-
-  obtenerCiudades(): Observable<CiudadRespuesta[]> {
-
-    return this.http.get<CiudadRespuesta[]>(
-      this.url
-    );
-
+  obtenerCiudadesPorDepartamento(idDepartamento: string): Observable<CiudadRespuesta[]> {
+    return this.http.get<CiudadRespuesta[]>(this.url, {
+      params: { idDepartamento }
+    });
   }
-
 }
