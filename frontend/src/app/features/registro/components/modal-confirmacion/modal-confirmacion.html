@@ -127,18 +127,29 @@
 
         </div>
 
-        <div
-            class="flex flex-col-reverse gap-3 border-t border-black/10 bg-[#F7F6F2] px-6 py-5 sm:flex-row sm:justify-end sm:px-8">
+        <div class="border-t border-black/10 bg-[#F7F6F2] px-6 py-5 sm:px-8">
 
-            <button type="button" (click)="corregir.emit()"
-                class="border border-black/20 bg-white px-6 py-3 text-sm font-bold text-black transition hover:border-black">
-                Corregir
-            </button>
+            @if (mensajeError()) {
+            <div class="mb-4 border border-red-200 bg-red-50 px-4 py-3">
+                <p class="text-sm font-semibold text-red-700">
+                    {{ mensajeError() }}
+                </p>
+            </div>
+            }
 
-            <button type="button" (click)="confirmar.emit()"
-                class="bg-black px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9A7B4F]">
-                Confirmar registro
-            </button>
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
+                <button type="button" (click)="corregir.emit()" [disabled]="guardando()"
+                    class="border border-black/20 bg-white px-6 py-3 text-sm font-bold text-black transition hover:border-black disabled:cursor-not-allowed disabled:opacity-50">
+                    Corregir
+                </button>
+
+                <button type="button" (click)="confirmar.emit()" [disabled]="guardando()"
+                    class="bg-black px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9A7B4F] disabled:cursor-not-allowed disabled:opacity-50">
+                    {{ guardando() ? 'Registrando...' : 'Confirmar registro' }}
+                </button>
+
+            </div>
 
         </div>
 

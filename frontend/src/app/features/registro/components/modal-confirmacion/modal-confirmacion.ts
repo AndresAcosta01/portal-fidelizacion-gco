@@ -22,6 +22,8 @@ export interface DatosRevisionRegistro {
 export class ModalConfirmacion {
 
   datos = input.required<DatosRevisionRegistro>();
+  guardando = input(false);
+  mensajeError = input('');
 
   corregir = output<void>();
   confirmar = output<void>();

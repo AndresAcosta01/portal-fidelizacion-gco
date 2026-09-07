@@ -1,6 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, forkJoin } from 'rxjs';
 
 import { Marca, MarcaRespuesta } from '../../core/services/marca';
@@ -8,12 +9,28 @@ import { TipoIdentificacion, TipoIdentificacionRespuesta } from '../../core/serv
 import { Pais, PaisRespuesta } from '../../core/services/pais';
 import { Departamento, DepartamentoRespuesta } from '../../core/services/departamento';
 import { Ciudad, CiudadRespuesta } from '../../core/services/ciudad';
+import { Cliente, ClienteRegistro } from '../../core/services/cliente';
 
 import { SeccionDatosPersonales } from './components/seccion-datos-personales/seccion-datos-personales';
 import { SeccionUbicacion } from './components/seccion-ubicacion/seccion-ubicacion';
 import { ConstructorDireccion } from './components/constructor-direccion/constructor-direccion';
 import { SeccionMarca } from './components/seccion-marca/seccion-marca';
 import { DatosRevisionRegistro, ModalConfirmacion } from './components/modal-confirmacion/modal-confirmacion';
+import { ModalExito } from './components/modal-exito/modal-exito';
+
+const fechaNoFutura: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  if (!control.value) {
+    return null;
+  }
+
+  const [anio, mes, dia] = control.value.split('-').map(Number);
+  const fechaSeleccionada = new Date(anio, mes - 1, dia);
+  const hoy = new Date();
+
+  hoy.setHours(0, 0, 0, 0);
+
+  return fechaSeleccionada > hoy ? { fechaFutura: true } : null;
+};
 
 @Component({
   selector: 'app-registro',
@@ -24,7 +41,8 @@ import { DatosRevisionRegistro, ModalConfirmacion } from './components/modal-con
     SeccionUbicacion,
     ConstructorDireccion,
     SeccionMarca,
-    ModalConfirmacion
+    ModalConfirmacion,
+    ModalExito
   ],
   templateUrl: './registro.html'
 })
@@ -38,9 +56,12 @@ export class Registro implements OnInit {
 
   cargandoFormulario = signal(true);
   errorCargaFormulario = signal(false);
+  mostrarModalConfirmacion = signal(false);
+  mostrarModalExito = signal(false);
+  guardandoRegistro = signal(false);
+  errorRegistro = signal('');
 
   direccionConstruida = '';
-  mostrarModalConfirmacion = false;
   datosRevision: DatosRevisionRegistro | null = null;
 
   private readonly tipoIdentificacionServicio = inject(TipoIdentificacion);
@@ -48,15 +69,17 @@ export class Registro implements OnInit {
   private readonly departamentoServicio = inject(Departamento);
   private readonly ciudadServicio = inject(Ciudad);
   private readonly marcaServicio = inject(Marca);
+  private readonly clienteServicio = inject(Cliente);
   private readonly formBuilder = inject(FormBuilder);
   private readonly ruta = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   formulario = this.formBuilder.nonNullable.group({
     idTipoIdentificacion: ['', Validators.required],
     numeroIdentificacion: ['', Validators.required],
     nombres: ['', Validators.required],
     apellidos: ['', Validators.required],
-    fechaNacimiento: ['', Validators.required],
+    fechaNacimiento: ['', [Validators.required, fechaNoFutura]],
     idPais: ['', Validators.required],
     idDepartamento: [{ value: '', disabled: true }, Validators.required],
     idCiudad: [{ value: '', disabled: true }, Validators.required],
@@ -97,7 +120,6 @@ export class Registro implements OnInit {
           this.departamentos.set(respuesta.departamentos.filter(departamento => departamento.activo));
           this.ciudades.set(respuesta.ciudades.filter(ciudad => ciudad.activo));
           this.marcas.set(respuesta.marcas.filter(marca => marca.activo));
-
           this.preseleccionarMarca();
         },
 
@@ -154,15 +176,74 @@ export class Registro implements OnInit {
       logoMarca: marca?.logoUrl ?? null
     };
 
-    this.mostrarModalConfirmacion = true;
+    this.errorRegistro.set('');
+    this.mostrarModalConfirmacion.set(true);
   }
 
   cerrarModalConfirmacion(): void {
-    this.mostrarModalConfirmacion = false;
+    if (this.guardandoRegistro()) {
+      return;
+    }
+
+    this.errorRegistro.set('');
+    this.mostrarModalConfirmacion.set(false);
   }
 
   confirmarRegistro(): void {
-    console.log('Confirmación aceptada:', this.formulario.getRawValue());
+    if (this.formulario.invalid || this.guardandoRegistro()) {
+      return;
+    }
+
+    const datos = this.formulario.getRawValue();
+
+    const cliente: ClienteRegistro = {
+      numeroIdentificacion: datos.numeroIdentificacion.trim(),
+      nombres: datos.nombres.trim(),
+      apellidos: datos.apellidos.trim(),
+      fechaNacimiento: datos.fechaNacimiento,
+      direccion: this.direccionConstruida,
+      idTipoIdentificacion: datos.idTipoIdentificacion,
+      idCiudad: datos.idCiudad,
+      idMarca: datos.idMarca
+    };
+
+    this.guardandoRegistro.set(true);
+    this.errorRegistro.set('');
+
+    this.clienteServicio.registrarCliente(cliente)
+      .pipe(finalize(() => this.guardandoRegistro.set(false)))
+      .subscribe({
+        next: () => {
+          this.mostrarModalConfirmacion.set(false);
+          this.mostrarModalExito.set(true);
+        },
+
+        error: (error: HttpErrorResponse) => {
+          const mensajeBackend = error.error?.detail || error.error?.message;
+
+          if (error.status === 409) {
+            this.errorRegistro.set(mensajeBackend || 'Ya existe un cliente con ese tipo y número de identificación.');
+            return;
+          }
+
+          if (error.status === 400) {
+            this.errorRegistro.set(mensajeBackend || 'Algunos datos del registro no son válidos. Revisa la información e inténtalo nuevamente.');
+            return;
+          }
+
+          if (error.status === 404) {
+            this.errorRegistro.set(mensajeBackend || 'Uno de los datos seleccionados ya no se encuentra disponible.');
+            return;
+          }
+
+          this.errorRegistro.set('No fue posible completar el registro. Inténtalo nuevamente.');
+        }
+      });
+  }
+
+  aceptarRegistroExitoso(): void {
+    this.mostrarModalExito.set(false);
+    this.router.navigate(['/']);
   }
 
 }

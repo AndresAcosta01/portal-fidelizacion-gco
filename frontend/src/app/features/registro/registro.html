@@ -30,52 +30,31 @@
 
                     <div class="flex gap-4">
                         <span
-                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-sm font-bold text-[#C6A66B]">
-                            01
-                        </span>
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-sm font-bold text-[#C6A66B]">01</span>
 
                         <div>
-                            <h2 class="font-semibold">
-                                Tus datos
-                            </h2>
-
-                            <p class="mt-1 text-sm text-white/50">
-                                Ingresa tu información personal.
-                            </p>
+                            <h2 class="font-semibold">Tus datos</h2>
+                            <p class="mt-1 text-sm text-white/50">Ingresa tu información personal.</p>
                         </div>
                     </div>
 
                     <div class="flex gap-4">
                         <span
-                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-sm font-bold text-[#C6A66B]">
-                            02
-                        </span>
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-sm font-bold text-[#C6A66B]">02</span>
 
                         <div>
-                            <h2 class="font-semibold">
-                                Tu ubicación
-                            </h2>
-
-                            <p class="mt-1 text-sm text-white/50">
-                                Selecciona país, departamento y ciudad.
-                            </p>
+                            <h2 class="font-semibold">Tu ubicación</h2>
+                            <p class="mt-1 text-sm text-white/50">Selecciona país, departamento y ciudad.</p>
                         </div>
                     </div>
 
                     <div class="flex gap-4">
                         <span
-                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-sm font-bold text-[#C6A66B]">
-                            03
-                        </span>
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-sm font-bold text-[#C6A66B]">03</span>
 
                         <div>
-                            <h2 class="font-semibold">
-                                Tu marca
-                            </h2>
-
-                            <p class="mt-1 text-sm text-white/50">
-                                Elige el programa al que deseas pertenecer.
-                            </p>
+                            <h2 class="font-semibold">Tu marca</h2>
+                            <p class="mt-1 text-sm text-white/50">Elige el programa al que deseas pertenecer.</p>
                         </div>
                     </div>
 
@@ -138,9 +117,7 @@
 
                     <div class="mt-10 border-t border-black/10 pt-8">
 
-                        <h3 class="text-lg font-bold text-black">
-                            Ubicación
-                        </h3>
+                        <h3 class="text-lg font-bold text-black">Ubicación</h3>
 
                         <p class="mt-1 text-sm text-black/50">
                             Selecciona tu lugar de residencia.
@@ -155,9 +132,7 @@
 
                     <div class="mt-10 border-t border-black/10 pt-8">
 
-                        <h3 class="text-lg font-bold text-black">
-                            Dirección
-                        </h3>
+                        <h3 class="text-lg font-bold text-black">Dirección</h3>
 
                         <p class="mt-1 text-sm text-black/50">
                             Construye tu dirección de residencia.
@@ -172,9 +147,7 @@
 
                     <div class="mt-10 border-t border-black/10 pt-8">
 
-                        <h3 class="text-lg font-bold text-black">
-                            Marca
-                        </h3>
+                        <h3 class="text-lg font-bold text-black">Marca</h3>
 
                         <p class="mt-1 text-sm text-black/50">
                             Elige la marca con la que deseas registrarte.
@@ -214,7 +187,12 @@
 
 </section>
 
-@if (mostrarModalConfirmacion && datosRevision) {
-<app-modal-confirmacion [datos]="datosRevision" (corregir)="cerrarModalConfirmacion()"
-    (confirmar)="confirmarRegistro()"></app-modal-confirmacion>
+@if (mostrarModalConfirmacion() && datosRevision) {
+<app-modal-confirmacion [datos]="datosRevision" [guardando]="guardandoRegistro()" [mensajeError]="errorRegistro()"
+    (corregir)="cerrarModalConfirmacion()" (confirmar)="confirmarRegistro()"></app-modal-confirmacion>
+}
+
+@if (mostrarModalExito() && datosRevision) {
+<app-modal-exito [nombre]="datosRevision.nombres" [marca]="datosRevision.marca" [logoMarca]="datosRevision.logoMarca"
+    (aceptar)="aceptarRegistroExitoso()"></app-modal-exito>
 }

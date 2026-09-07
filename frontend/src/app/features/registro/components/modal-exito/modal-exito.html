@@ -1,0 +1,41 @@
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 px-4 py-8">
+
+    <div class="w-full max-w-md bg-white shadow-2xl">
+
+        <div class="px-7 py-8 text-center sm:px-9">
+
+            <div
+                class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-black text-2xl font-bold text-white">
+                ✓
+            </div>
+
+            <p class="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-[#9A7B4F]">
+                Registro completado
+            </p>
+
+            <h2 class="mt-3 text-3xl font-bold tracking-[-0.03em] text-black">
+                ¡Bienvenido, {{ nombre() }}!
+            </h2>
+
+            <p class="mt-4 text-sm leading-7 text-black/55">
+                Tu registro se realizó correctamente. Nos complace que hagas parte de nuestra comunidad GCO junto a {{
+                marca() }}.
+            </p>
+
+            @if (logoMarca()) {
+            <img [src]="logoMarca()" [alt]="'Logo de ' + marca()"
+                class="mx-auto mt-7 max-h-20 max-w-[220px] object-contain">
+            }
+
+        </div>
+
+        <div class="border-t border-black/10 bg-[#F7F6F2] px-7 py-5 sm:px-9">
+            <button type="button" (click)="aceptar.emit()"
+                class="w-full bg-black px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#9A7B4F]">
+                Aceptar
+            </button>
+        </div>
+
+    </div>
+
+</div>

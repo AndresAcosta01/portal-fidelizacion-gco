@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
-
 export interface ClienteRegistro {
   numeroIdentificacion: string;
   nombres: string;
@@ -15,7 +14,6 @@ export interface ClienteRegistro {
   idCiudad: string;
   idMarca: string;
 }
-
 
 export interface ClienteRespuesta {
   id: string;
@@ -29,27 +27,16 @@ export interface ClienteRespuesta {
   idMarca: string;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class Cliente {
 
   private readonly http = inject(HttpClient);
+  private readonly url = `${environment.apiUrl}/clientes`;
 
-  private readonly url =
-    `${environment.apiUrl}/clientes`;
-
-
-  registrarCliente(
-    cliente: ClienteRegistro
-  ): Observable<ClienteRespuesta> {
-
-    return this.http.post<ClienteRespuesta>(
-      this.url,
-      cliente
-    );
-
+  registrarCliente(cliente: ClienteRegistro): Observable<ClienteRespuesta> {
+    return this.http.post<ClienteRespuesta>(this.url, cliente);
   }
 
 }
