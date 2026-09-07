@@ -1,0 +1,26 @@
+<div [formGroup]="formulario()">
+
+    <label for="marca" class="text-sm font-semibold text-black">
+        Marca
+    </label>
+
+    <select id="marca" formControlName="idMarca"
+        class="mt-2 w-full border border-black/15 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#C6A66B]">
+        <option value="">
+            Selecciona una marca
+        </option>
+
+        @for (marca of marcas(); track marca.id) {
+        <option [value]="marca.id">
+            {{ marca.nombre }}
+        </option>
+        }
+    </select>
+
+    @if (campoInvalido('idMarca')) {
+    <p class="mt-2 text-xs text-red-600">
+        Selecciona una marca.
+    </p>
+    }
+
+</div>

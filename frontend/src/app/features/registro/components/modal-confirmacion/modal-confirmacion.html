@@ -1,0 +1,147 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 py-8">
+
+    <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto bg-white shadow-2xl">
+
+        <div class="border-b border-black/10 px-6 py-6 sm:px-8">
+
+            <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#9A7B4F]">
+                Revisión de información
+            </p>
+
+            <h2 class="mt-2 text-2xl font-bold tracking-[-0.03em] text-black">
+                Confirma tus datos
+            </h2>
+
+            <p class="mt-2 text-sm text-black/50">
+                Verifica que la información sea correcta antes de continuar.
+            </p>
+
+        </div>
+
+        <div class="grid gap-x-10 gap-y-7 px-6 py-7 sm:grid-cols-2 sm:px-8">
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Tipo de identificación
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().tipoIdentificacion }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Número de identificación
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().numeroIdentificacion }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Nombres
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().nombres }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Apellidos
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().apellidos }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Fecha de nacimiento
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().fechaNacimiento }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    País
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().pais }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Departamento
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().departamento }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Ciudad
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().ciudad }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Dirección
+                </p>
+
+                <p class="mt-1 text-sm font-semibold text-black">
+                    {{ datos().direccion }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-black/40">
+                    Marca
+                </p>
+
+                <p class="mt-1 text-base font-bold text-black">
+                    {{ datos().marca }}
+                </p>
+
+                @if (datos().logoMarca) {
+                <img [src]="datos().logoMarca" [alt]="'Logo de ' + datos().marca"
+                    class="mt-4 max-h-20 max-w-[220px] object-contain object-left">
+                }
+            </div>
+
+        </div>
+
+        <div
+            class="flex flex-col-reverse gap-3 border-t border-black/10 bg-[#F7F6F2] px-6 py-5 sm:flex-row sm:justify-end sm:px-8">
+
+            <button type="button" (click)="corregir.emit()"
+                class="border border-black/20 bg-white px-6 py-3 text-sm font-bold text-black transition hover:border-black">
+                Corregir
+            </button>
+
+            <button type="button" (click)="confirmar.emit()"
+                class="bg-black px-6 py-3 text-sm font-bold text-white transition hover:bg-[#9A7B4F]">
+                Confirmar registro
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

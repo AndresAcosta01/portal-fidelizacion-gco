@@ -1,0 +1,162 @@
+<div [formGroup]="formularioDireccion()">
+
+    <div class="grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+
+        <div class="self-start">
+            <label for="tipoVia" class="block h-5 text-sm font-semibold text-black">
+                Tipo de vía
+            </label>
+
+            <select id="tipoVia" formControlName="tipoVia"
+                class="mt-2 h-[46px] w-full border border-black/15 bg-white px-4 text-sm outline-none transition focus:border-[#C6A66B]">
+                <option value="">
+                    Selecciona
+                </option>
+
+                @for (tipoVia of tiposVia; track tipoVia) {
+                <option [value]="tipoVia">
+                    {{ tipoVia }}
+                </option>
+                }
+            </select>
+
+            @if (campoInvalido('tipoVia')) {
+            <p class="mt-2 text-xs text-red-600">
+                Selecciona el tipo de vía.
+            </p>
+            }
+        </div>
+
+        <div class="self-start">
+            <label for="numeroVia" class="block h-5 text-sm font-semibold text-black">
+                Número
+            </label>
+
+            <input id="numeroVia" type="text" inputmode="numeric" formControlName="numeroVia" placeholder="48"
+                class="mt-2 h-[46px] w-full border border-black/15 px-4 text-sm outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+            @if (tieneError('numeroVia', 'required')) {
+            <p class="mt-2 text-xs text-red-600">
+                Ingresa el número.
+            </p>
+            }
+
+            @if (tieneError('numeroVia', 'pattern')) {
+            <p class="mt-2 text-xs text-red-600">
+                Solo se permiten números.
+            </p>
+            }
+        </div>
+
+        <div class="self-start">
+            <label for="letraVia" class="block h-5 text-sm font-semibold text-black">
+                Letra
+            </label>
+
+            <input id="letraVia" type="text" formControlName="letraVia" placeholder="A"
+                class="mt-2 h-[46px] w-full border border-black/15 px-4 text-sm uppercase outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+            @if (tieneError('letraVia', 'pattern')) {
+            <p class="mt-2 text-xs text-red-600">
+                Solo se permiten letras.
+            </p>
+            }
+        </div>
+
+        <div class="self-start">
+            <span class="block h-5 text-sm font-semibold invisible">
+                Bis
+            </span>
+
+            <label for="bis"
+                class="mt-2 flex h-[46px] w-full cursor-pointer items-center gap-3 border border-black/15 px-4 text-sm font-semibold text-black">
+                <input id="bis" type="checkbox" formControlName="bis" class="h-4 w-4 accent-black">
+                Bis
+            </label>
+        </div>
+
+        <div class="self-start">
+            <label for="numeroCruce" class="block h-5 text-sm font-semibold text-black">
+                Número de cruce
+            </label>
+
+            <input id="numeroCruce" type="text" inputmode="numeric" formControlName="numeroCruce" placeholder="72"
+                class="mt-2 h-[46px] w-full border border-black/15 px-4 text-sm outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+            @if (tieneError('numeroCruce', 'required')) {
+            <p class="mt-2 text-xs text-red-600">
+                Ingresa el número de cruce.
+            </p>
+            }
+
+            @if (tieneError('numeroCruce', 'pattern')) {
+            <p class="mt-2 text-xs text-red-600">
+                Solo se permiten números.
+            </p>
+            }
+        </div>
+
+        <div class="self-start">
+            <label for="letraCruce" class="block h-5 text-sm font-semibold text-black">
+                Letra de cruce
+            </label>
+
+            <input id="letraCruce" type="text" formControlName="letraCruce" placeholder="B"
+                class="mt-2 h-[46px] w-full border border-black/15 px-4 text-sm uppercase outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+            @if (tieneError('letraCruce', 'pattern')) {
+            <p class="mt-2 text-xs text-red-600">
+                Solo se permiten letras.
+            </p>
+            }
+        </div>
+
+        <div class="self-start sm:col-span-2">
+            <label for="numeroPlaca" class="block h-5 text-sm font-semibold text-black">
+                Número de placa
+            </label>
+
+            <input id="numeroPlaca" type="text" inputmode="numeric" formControlName="numeroPlaca" placeholder="35"
+                class="mt-2 h-[46px] w-full border border-black/15 px-4 text-sm outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+            @if (tieneError('numeroPlaca', 'required')) {
+            <p class="mt-2 text-xs text-red-600">
+                Ingresa el número de placa.
+            </p>
+            }
+
+            @if (tieneError('numeroPlaca', 'pattern')) {
+            <p class="mt-2 text-xs text-red-600">
+                Solo se permiten números.
+            </p>
+            }
+        </div>
+
+        <div class="self-start sm:col-span-2 lg:col-span-4">
+            <label for="complemento" class="block h-5 text-sm font-semibold text-black">
+                Complemento
+            </label>
+
+            <input id="complemento" type="text" formControlName="complemento" placeholder="Torre 2, Apto 401"
+                class="mt-2 h-[46px] w-full border border-black/15 px-4 text-sm outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+            <p class="mt-2 text-xs text-black/40">
+                Opcional: apartamento, torre, interior, bloque, unidad u otra información necesaria.
+            </p>
+        </div>
+
+    </div>
+
+    @if (vistaPrevia) {
+    <div class="mt-6 border border-[#C6A66B]/30 bg-[#F7F6F2] px-5 py-4">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#9A7B4F]">
+            Dirección construida
+        </p>
+
+        <p class="mt-2 text-sm font-semibold uppercase text-black">
+            {{ vistaPrevia }}
+        </p>
+    </div>
+    }
+
+</div>
