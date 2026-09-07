@@ -48,8 +48,15 @@ public class ServicioCiudadImpl implements IServicioCiudad {
 
     @Override
     public List<CiudadResponseDTO> listar() {
-
         return repositorioCiudad.findAll()
+                .stream()
+                .map(CiudadResponseDTO::fromEntity)
+                .toList();
+    }
+
+    @Override
+    public List<CiudadResponseDTO> listarPorDepartamento(UUID idDepartamento) {
+        return repositorioCiudad.findByDepartamento_IdAndActivoTrue(idDepartamento)
                 .stream()
                 .map(CiudadResponseDTO::fromEntity)
                 .toList();
@@ -97,5 +104,4 @@ public class ServicioCiudadImpl implements IServicioCiudad {
 
         repositorioCiudad.delete(ciudad);
     }
-
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gco.fidelizacion.dtos.ciudad.CiudadRequestDTO;
@@ -35,7 +36,11 @@ public class CiudadControlador {
     }
 
     @GetMapping
-    public ResponseEntity<List<CiudadResponseDTO>> listar() {
+    public ResponseEntity<List<CiudadResponseDTO>> listar(@RequestParam(required = false) UUID idDepartamento) {
+        if (idDepartamento != null) {
+            return ResponseEntity.ok(servicioCiudad.listarPorDepartamento(idDepartamento));
+        }
+
         return ResponseEntity.ok(servicioCiudad.listar());
     }
 

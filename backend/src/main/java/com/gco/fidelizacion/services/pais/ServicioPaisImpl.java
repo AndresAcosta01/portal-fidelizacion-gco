@@ -37,7 +37,7 @@ public class ServicioPaisImpl implements IServicioPais {
     @Override
     public List<PaisResponseDTO> listar() {
 
-        return repositorioPais.findAll()
+        return repositorioPais.findByActivoTrue()
                 .stream()
                 .map(PaisResponseDTO::fromEntity)
                 .toList();

@@ -31,7 +31,6 @@ public class ServicioDepartamentoImpl implements IServicioDepartamento {
 
     @Override
     public DepartamentoResponseDTO crear(DepartamentoRequestDTO dto) {
-
         Departamento departamento = dto.toEntity();
 
         Pais pais = repositorioPais.findById(dto.idPais())
@@ -40,7 +39,6 @@ public class ServicioDepartamentoImpl implements IServicioDepartamento {
                         "No se encontró el pais"));
 
         departamento.setPais(pais);
-
         validacionDepartamento.validarDepartamento(departamento);
 
         return DepartamentoResponseDTO.fromEntity(repositorioDepartamento.save(departamento));
@@ -48,7 +46,6 @@ public class ServicioDepartamentoImpl implements IServicioDepartamento {
 
     @Override
     public List<DepartamentoResponseDTO> listar() {
-
         return repositorioDepartamento.findAll()
                 .stream()
                 .map(DepartamentoResponseDTO::fromEntity)
@@ -56,8 +53,15 @@ public class ServicioDepartamentoImpl implements IServicioDepartamento {
     }
 
     @Override
-    public DepartamentoResponseDTO buscarPorId(UUID id) {
+    public List<DepartamentoResponseDTO> listarPorPais(UUID idPais) {
+        return repositorioDepartamento.findByPais_IdAndActivoTrue(idPais)
+                .stream()
+                .map(DepartamentoResponseDTO::fromEntity)
+                .toList();
+    }
 
+    @Override
+    public DepartamentoResponseDTO buscarPorId(UUID id) {
         Departamento departamento = repositorioDepartamento.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
@@ -68,7 +72,6 @@ public class ServicioDepartamentoImpl implements IServicioDepartamento {
 
     @Override
     public DepartamentoResponseDTO actualizar(UUID id, DepartamentoRequestDTO dto) {
-
         Departamento departamento = repositorioDepartamento.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
@@ -90,7 +93,6 @@ public class ServicioDepartamentoImpl implements IServicioDepartamento {
 
     @Override
     public void eliminar(UUID id) {
-
         Departamento departamento = repositorioDepartamento.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
@@ -98,5 +100,4 @@ public class ServicioDepartamentoImpl implements IServicioDepartamento {
 
         repositorioDepartamento.delete(departamento);
     }
-
 }
