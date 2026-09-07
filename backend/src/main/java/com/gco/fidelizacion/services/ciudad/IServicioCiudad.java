@@ -12,6 +12,8 @@ public interface IServicioCiudad {
 
     List<CiudadResponseDTO> listar();
 
+    List<CiudadResponseDTO> listarPorDepartamento(UUID idDepartamento);
+
     CiudadResponseDTO buscarPorId(UUID idCiudad);
 
     CiudadResponseDTO actualizar(UUID idCiudad, CiudadRequestDTO dto);

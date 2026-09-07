@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gco.fidelizacion.dtos.departamento.DepartamentoRequestDTO;
@@ -35,7 +36,11 @@ public class DepartamentoControlador {
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartamentoResponseDTO>> listar() {
+    public ResponseEntity<List<DepartamentoResponseDTO>> listar(@RequestParam(required = false) UUID idPais) {
+        if (idPais != null) {
+            return ResponseEntity.ok(servicioDepartamento.listarPorPais(idPais));
+        }
+
         return ResponseEntity.ok(servicioDepartamento.listar());
     }
 

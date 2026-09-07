@@ -12,6 +12,8 @@ public interface IServicioDepartamento {
 
     List<DepartamentoResponseDTO> listar();
 
+    List<DepartamentoResponseDTO> listarPorPais(UUID idPais);
+
     DepartamentoResponseDTO buscarPorId(UUID id);
 
     DepartamentoResponseDTO actualizar(UUID id, DepartamentoRequestDTO dto);
