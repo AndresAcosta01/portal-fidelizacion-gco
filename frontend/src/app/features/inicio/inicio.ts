@@ -1,39 +1,35 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+
+import { Marca, MarcaRespuesta } from '../../core/services/marca';
+import { HeroInicio } from './components/hero-inicio/hero-inicio';
+import { SeccionMarcas } from './components/seccion-marcas/seccion-marcas';
+import { CtaRegistro } from './components/cta-registro/cta-registro';
 
 @Component({
   selector: 'app-inicio',
-  imports: [RouterLink],
+  imports: [HeroInicio, SeccionMarcas, CtaRegistro],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css'
 })
-export class Inicio {
+export class Inicio implements OnInit {
 
-  marcas = [
-    {
-      nombre: 'Americanino',
-      logo: 'https://res.cloudinary.com/lrur0zig/image/upload/v1788741251/Icono-americanino.png'
-    },
-    {
-      nombre: 'American Eagle',
-      logo: 'https://res.cloudinary.com/lrur0zig/image/upload/v1788740287/logo-american-eagle.svg'
-    },
-    {
-      nombre: 'Chevignon',
-      logo: 'https://res.cloudinary.com/lrur0zig/image/upload/v1788740368/Icono-chevignon.png'
-    },
-    {
-      nombre: 'Esprit',
-      logo: 'https://res.cloudinary.com/lrur0zig/image/upload/v1788740571/Icono-esprit.png'
-    },
-    {
-      nombre: 'Naf Naf',
-      logo: 'https://res.cloudinary.com/lrur0zig/image/upload/v1788740061/Icono-Naf-Naf.png'
-    },
-    {
-      nombre: 'Rifle',
-      logo: 'https://res.cloudinary.com/lrur0zig/image/upload/v1788741059/logo-rifle.png'
-    }
-  ];
+  marcas = signal<MarcaRespuesta[]>([]);
+
+  private readonly marcaServicio = inject(Marca);
+
+  ngOnInit(): void {
+    this.cargarMarcas();
+  }
+
+  cargarMarcas(): void {
+    this.marcaServicio.obtenerMarcas().subscribe({
+      next: (marcas) => {
+        this.marcas.set(marcas.filter(marca => marca.activo));
+      },
+      error: (error) => {
+        console.error('Error al cargar las marcas:', error);
+      }
+    });
+  }
 
 }

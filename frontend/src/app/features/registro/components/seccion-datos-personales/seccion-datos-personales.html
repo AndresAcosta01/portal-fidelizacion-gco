@@ -1,0 +1,95 @@
+<div [formGroup]="formulario()" class="grid gap-6 sm:grid-cols-2">
+
+    <div>
+        <label for="tipoIdentificacion" class="text-sm font-semibold text-black">
+            Tipo de identificación
+        </label>
+
+        <select id="tipoIdentificacion" formControlName="idTipoIdentificacion"
+            class="mt-2 w-full border border-black/15 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#C6A66B]">
+            <option value="">
+                Selecciona una opción
+            </option>
+
+            @for (tipo of tiposIdentificacion(); track tipo.id) {
+            <option [value]="tipo.id">
+                {{ tipo.nombre }}
+            </option>
+            }
+        </select>
+
+        @if (tieneError('idTipoIdentificacion', 'required')) {
+        <p class="mt-2 text-xs text-red-600">
+            Selecciona un tipo de identificación.
+        </p>
+        }
+    </div>
+
+    <div>
+        <label for="numeroIdentificacion" class="text-sm font-semibold text-black">
+            Número de identificación
+        </label>
+
+        <input id="numeroIdentificacion" type="text" formControlName="numeroIdentificacion"
+            placeholder="Número de identificación"
+            class="mt-2 w-full border border-black/15 px-4 py-3 text-sm outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+        @if (tieneError('numeroIdentificacion', 'required')) {
+        <p class="mt-2 text-xs text-red-600">
+            Ingresa tu número de identificación.
+        </p>
+        }
+    </div>
+
+    <div>
+        <label for="nombres" class="text-sm font-semibold text-black">
+            Nombres
+        </label>
+
+        <input id="nombres" type="text" formControlName="nombres" placeholder="Nombres"
+            class="mt-2 w-full border border-black/15 px-4 py-3 text-sm outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+        @if (tieneError('nombres', 'required')) {
+        <p class="mt-2 text-xs text-red-600">
+            Ingresa tus nombres.
+        </p>
+        }
+    </div>
+
+    <div>
+        <label for="apellidos" class="text-sm font-semibold text-black">
+            Apellidos
+        </label>
+
+        <input id="apellidos" type="text" formControlName="apellidos" placeholder="Apellidos"
+            class="mt-2 w-full border border-black/15 px-4 py-3 text-sm outline-none transition placeholder:text-black/30 focus:border-[#C6A66B]">
+
+        @if (tieneError('apellidos', 'required')) {
+        <p class="mt-2 text-xs text-red-600">
+            Ingresa tus apellidos.
+        </p>
+        }
+    </div>
+
+    <div class="sm:col-span-2">
+        <label for="fechaNacimiento" class="text-sm font-semibold text-black">
+            Fecha de nacimiento
+        </label>
+
+        <input id="fechaNacimiento" type="date" formControlName="fechaNacimiento"
+            class="mt-2 w-full border border-black/15 px-4 py-3 text-sm outline-none transition focus:border-[#C6A66B]">
+
+        @if (tieneError('fechaNacimiento', 'required')) {
+        <p class="mt-2 text-xs text-red-600">
+            Selecciona tu fecha de nacimiento.
+        </p>
+        }
+
+        @if (tieneError('fechaNacimiento', 'fechaFutura')) {
+        <p class="mt-2 text-xs text-red-600">
+            La fecha de nacimiento no puede ser una fecha futura.
+        </p>
+        }
+    </div>
+
+</div>
