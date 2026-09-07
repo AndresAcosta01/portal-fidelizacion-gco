@@ -1,11 +1,271 @@
-<section class="px-4 py-10 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-7xl">
-        <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl lg:text-4xl">
-            Portal de fidelización
-        </h1>
+<!-- HERO -->
+<section class="overflow-hidden bg-white text-black">
+    <div
+        class="mx-auto grid max-w-7xl items-center gap-14 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-24">
 
-        <p class="mt-4 max-w-2xl text-sm text-slate-600 sm:text-base">
-            Gestión de clientes y programas de fidelización.
-        </p>
+        <div class="relative z-10">
+            <div class="flex items-center gap-3">
+                <span class="h-px w-10 bg-[#C6A66B]"></span>
+                <p class="text-xs font-bold uppercase tracking-[0.28em] text-[#9A7B4F] sm:text-sm">
+                    Programa de fidelización GCO
+                </p>
+            </div>
+
+            <h1
+                class="mt-7 max-w-2xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] text-black sm:text-6xl lg:text-7xl">
+                Haz parte de
+                <span class="block text-[#9A7B4F]">
+                    nuestras marcas
+                </span>
+            </h1>
+
+            <p class="mt-7 max-w-xl text-base leading-7 text-black/60 sm:text-lg sm:leading-8">
+                Regístrate en nuestro programa de fidelización y forma parte
+                de una comunidad que reúne algunas de las marcas más
+                reconocidas del grupo.
+            </p>
+
+            <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+
+                <a routerLink="/registro"
+                    class="inline-flex items-center justify-center bg-black px-7 py-3.5 text-sm font-bold text-white transition duration-300 hover:bg-[#9A7B4F]">
+                    Quiero registrarme
+
+                    <span class="ml-3 text-lg">
+                        →
+                    </span>
+                </a>
+
+                <a href="#marcas"
+                    class="inline-flex items-center justify-center border border-black/20 bg-white px-7 py-3.5 text-sm font-semibold text-black transition duration-300 hover:border-black hover:bg-black hover:text-white">
+                    Conocer las marcas
+                </a>
+
+            </div>
+
+
+
+        </div>
+
+        <div class="relative">
+            <div class="relative border border-black/10 bg-[#F7F6F2] p-4 shadow-[0_30px_70px_rgba(0,0,0,0.12)] sm:p-6">
+
+                <div class="mb-4 flex items-center justify-between border-b border-black/10 pb-4">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-black/40">
+                            GCO
+                        </p>
+
+                        <p class="mt-1 text-sm font-semibold text-black">
+                            Marcas que nos representan
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    @for (marca of marcas; track marca.nombre) {
+                    <div
+                        class="group flex min-h-32 items-center justify-center border border-black/10 bg-white p-5 transition duration-300 hover:-translate-y-1 hover:border-[#C6A66B] hover:shadow-lg">
+                        <img [src]="marca.logo" [alt]="'Logo de ' + marca.nombre"
+                            class="max-h-16 max-w-full object-contain transition duration-300 group-hover:scale-105">
+                    </div>
+                    }
+
+                </div>
+
+                <div class="mt-4 grid gap-px overflow-hidden bg-black/10 sm:grid-cols-3">
+
+                    <div class="bg-black px-5 py-5 text-white">
+                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A66B]">
+                            01
+                        </span>
+
+                        <p class="mt-2 text-sm font-semibold">
+                            Completa tus datos
+                        </p>
+                    </div>
+
+                    <div class="bg-black px-5 py-5 text-white">
+
+                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A66B]">
+                            02
+                        </span>
+
+                        <p class="mt-2 text-sm font-semibold">
+                            Elige tu marca
+                        </p>
+
+                    </div>
+
+                    <div class="bg-black px-5 py-5 text-white">
+
+                        <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A66B]">
+                            03
+                        </span>
+
+                        <p class="mt-2 text-sm font-semibold">
+                            Confirma tu registro
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+</section>
+
+<section class="border-y border-black/10 bg-black py-5 text-white">
+    <div
+        class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 text-center sm:px-6 md:flex-row md:text-left lg:px-8">
+
+        <p class="text-sm font-medium">
+            Una sola inscripción.
+            <span class="text-white/55">
+                Una experiencia pensada para ti.
+            </span>
+        </p>
+
+        <p class="text-xs font-bold uppercase tracking-[0.22em] text-[#C6A66B]">
+            Americanino · American Eagle · Chevignon · Esprit · Naf Naf · Rifle
+        </p>
+
+    </div>
+</section>
+
+<section id="marcas" class="bg-[#F7F6F2] px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+
+        <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+
+            <div class="max-w-2xl">
+
+                <div class="flex items-center gap-3">
+                    <span class="h-px w-10 bg-[#C6A66B]"></span>
+
+                    <p class="text-xs font-bold uppercase tracking-[0.25em] text-[#9A7B4F] sm:text-sm">
+                        Nuestras marcas
+                    </p>
+                </div>
+
+                <h2 class="mt-5 text-4xl font-bold tracking-[-0.03em] text-black sm:text-5xl">
+                    Encuentra la marca
+                    <span class="block">
+                        con la que te identificas
+                    </span>
+                </h2>
+
+            </div>
+
+            <p class="max-w-md text-sm leading-7 text-black/55 sm:text-base">
+                Descubre las marcas que hacen parte del programa y elige
+                la que deseas asociar a tu inscripción.
+            </p>
+
+        </div>
+
+
+        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+            @for (marca of marcas; track marca.nombre) {
+
+            <article
+                class="group overflow-hidden border border-black/10 bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition duration-300 hover:-translate-y-1 hover:border-black/20 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]">
+
+                <div class="relative flex h-48 items-center justify-center overflow-hidden bg-white px-6">
+
+                    <span class="absolute right-0 top-0 text-xs font-bold tracking-[0.18em] text-black/20">
+                        GCO
+                    </span>
+
+                    <img [src]="marca.logo" [alt]="'Logo de ' + marca.nombre"
+                        class="max-h-28 max-w-[85%] object-contain transition duration-500 group-hover:scale-105">
+
+                </div>
+
+                <div class="border-t border-black/10 pt-5">
+
+                    <div class="flex items-start justify-between gap-4">
+
+                        <h3 class="text-xl font-bold tracking-tight text-black">
+                            {{ marca.nombre }}
+                        </h3>
+
+                        <span
+                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-black/15 text-sm transition duration-300 group-hover:border-black group-hover:bg-black group-hover:text-white">
+                            ↗
+                        </span>
+
+                    </div>
+
+                    <p class="mt-3 text-sm leading-6 text-black/55">
+                        Conoce la marca y haz parte de su programa
+                        de fidelización.
+                    </p>
+
+                    <a routerLink="/registro"
+                        class="mt-6 inline-flex items-center text-sm font-bold text-black transition duration-300 hover:text-[#9A7B4F]">
+                        Registrarme con {{ marca.nombre }}
+
+                        <span class="ml-2">
+                            →
+                        </span>
+                    </a>
+
+                </div>
+
+            </article>
+
+            }
+
+        </div>
+
+    </div>
+</section>
+
+<section class="bg-black px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+
+    <div class="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1fr_auto]">
+
+        <div>
+
+            <div class="flex items-center gap-3">
+
+                <span class="h-px w-10 bg-[#C6A66B]"></span>
+
+                <p class="text-xs font-bold uppercase tracking-[0.25em] text-[#C6A66B]">
+                    Únete a nosotros
+                </p>
+
+            </div>
+
+            <h2 class="mt-5 max-w-3xl text-4xl font-bold tracking-[-0.03em] text-white sm:text-5xl">
+                ¿Listo para hacer parte
+                <span class="text-[#C6A66B]">
+                    de nuestra comunidad?
+                </span>
+            </h2>
+
+            <p class="mt-5 max-w-2xl text-base leading-7 text-white/55">
+                Completa tu inscripción, selecciona tu marca favorita y
+                empieza a formar parte de nuestro programa de fidelización.
+            </p>
+
+        </div>
+
+
+        <a routerLink="/registro"
+            class="group inline-flex min-w-52 items-center justify-between bg-white px-7 py-4 text-sm font-bold text-black transition duration-300 hover:bg-[#C6A66B]">
+            Registrarme
+
+            <span class="ml-6 text-xl transition duration-300 group-hover:translate-x-1">
+                →
+            </span>
+        </a>
+
+    </div>
+
 </section>
