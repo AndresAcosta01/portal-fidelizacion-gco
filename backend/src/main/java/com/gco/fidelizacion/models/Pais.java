@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.Nationalized;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -22,6 +24,7 @@ public class Pais {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Nationalized
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
 
