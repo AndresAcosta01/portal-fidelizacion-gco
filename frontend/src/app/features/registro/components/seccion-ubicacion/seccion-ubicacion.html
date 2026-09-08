@@ -1,0 +1,54 @@
+<div [formGroup]="formulario()" class="grid gap-6 sm:grid-cols-2">
+    <div>
+        <label class="text-sm font-semibold text-black">
+            País
+        </label>
+
+        <div class="mt-2">
+            <app-selector-buscable [opciones]="paises()" placeholder="Selecciona o busca un país"
+                (seleccion)="seleccionarPais($event)"></app-selector-buscable>
+        </div>
+
+        @if (campoInvalido('idPais')) {
+        <p class="mt-2 text-xs text-red-600">
+            Selecciona un país.
+        </p>
+        }
+    </div>
+
+    <div>
+        <label class="text-sm font-semibold text-black">
+            Departamento
+        </label>
+
+        <div class="mt-2">
+            <app-selector-buscable [opciones]="departamentos()" placeholder="Selecciona o busca un departamento"
+                [deshabilitado]="formulario().get('idDepartamento')?.disabled ?? true"
+                (seleccion)="seleccionarDepartamento($event)"></app-selector-buscable>
+        </div>
+
+        @if (campoInvalido('idDepartamento')) {
+        <p class="mt-2 text-xs text-red-600">
+            Selecciona un departamento.
+        </p>
+        }
+    </div>
+
+    <div class="sm:col-span-2">
+        <label class="text-sm font-semibold text-black">
+            Ciudad
+        </label>
+
+        <div class="mt-2">
+            <app-selector-buscable [opciones]="ciudades()" placeholder="Selecciona o busca una ciudad"
+                [deshabilitado]="formulario().get('idCiudad')?.disabled ?? true"
+                (seleccion)="seleccionarCiudad($event)"></app-selector-buscable>
+        </div>
+
+        @if (campoInvalido('idCiudad')) {
+        <p class="mt-2 text-xs text-red-600">
+            Selecciona una ciudad.
+        </p>
+        }
+    </div>
+</div>
