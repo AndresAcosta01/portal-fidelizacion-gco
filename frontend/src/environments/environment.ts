@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: 'http://localhost:8080/api'
+    apiUrl: 'https://portal-fidelizacion-gco-api-eaczavaqb7dsg2f0.brazilsouth-01.azurewebsites.net/api'
 };
