@@ -2,9 +2,8 @@ package com.gco.fidelizacion.models;
 
 import java.time.LocalDate;
 import java.util.UUID;
-
+import org.hibernate.annotations.Nationalized;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,15 +33,18 @@ public class Cliente {
     @Column(name = "numero_identificacion", nullable = false)
     private String numeroIdentificacion;
 
+    @Nationalized
     @Column(name = "nombres", nullable = false)
     private String nombres;
 
+    @Nationalized
     @Column(name = "apellidos", nullable = false)
     private String apellidos;
 
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimiento;
 
+    @Nationalized
     @Column(name = "direccion", nullable = false)
     private String direccion;
 
@@ -132,5 +134,4 @@ public class Cliente {
     public void setMarca(Marca marca) {
         this.marca = marca;
     }
-
 }
