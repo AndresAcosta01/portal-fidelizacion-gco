@@ -178,16 +178,19 @@ export class Registro implements OnInit {
   }
 
   preseleccionarMarca(): void {
-    const idMarca = this.ruta.snapshot.queryParamMap.get('marca');
+    const marcaParametro = this.ruta.snapshot.queryParamMap.get('marca');
 
-    if (!idMarca) {
+    if (!marcaParametro) {
       return;
     }
 
-    const marcaExiste = this.marcas().some(marca => marca.id === idMarca);
+    const marcaSeleccionada = this.marcas().find(marca =>
+      marca.id === marcaParametro ||
+      marca.nombre.toLowerCase() === marcaParametro.toLowerCase()
+    );
 
-    if (marcaExiste) {
-      this.formulario.controls.idMarca.setValue(idMarca);
+    if (marcaSeleccionada) {
+      this.formulario.controls.idMarca.setValue(marcaSeleccionada.id);
     }
   }
 
