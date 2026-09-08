@@ -1,125 +1,59 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-
 import { PaisRespuesta } from '../../../../core/services/pais';
 import { DepartamentoRespuesta } from '../../../../core/services/departamento';
 import { CiudadRespuesta } from '../../../../core/services/ciudad';
+import { SelectorBuscable } from '../../../../shared/selector-buscable/selector-buscable';
 
 @Component({
   selector: 'app-seccion-ubicacion',
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule, SelectorBuscable],
   templateUrl: './seccion-ubicacion.html'
 })
 export class SeccionUbicacion {
-
   formulario = input.required<FormGroup>();
+  paises = input.required<PaisRespuesta[]>();
+  departamentos = input.required<DepartamentoRespuesta[]>();
+  ciudades = input.required<CiudadRespuesta[]>();
+  paisSeleccionado = output<string>();
+  departamentoSeleccionado = output<string>();
 
-  paises =
-    input.required<PaisRespuesta[]>();
-
-  departamentos =
-    input.required<DepartamentoRespuesta[]>();
-
-  ciudades =
-    input.required<CiudadRespuesta[]>();
-
-  departamentosFiltrados: DepartamentoRespuesta[] = [];
-
-  ciudadesFiltradas: CiudadRespuesta[] = [];
-
-  cambiarPais(): void {
-
-    const idPais =
-      this.formulario()
-        .get('idPais')
-        ?.value;
-
-    this.formulario()
-      .get('idDepartamento')
-      ?.reset('');
-
-    this.formulario()
-      .get('idCiudad')
-      ?.reset('');
-
-    this.ciudadesFiltradas = [];
-
-    this.formulario()
-      .get('idCiudad')
-      ?.disable();
+  seleccionarPais(idPais: string): void {
+    this.formulario().get('idPais')?.setValue(idPais);
+    this.formulario().get('idDepartamento')?.reset('');
+    this.formulario().get('idCiudad')?.reset('');
+    this.formulario().get('idCiudad')?.disable();
 
     if (!idPais) {
-
-      this.departamentosFiltrados = [];
-
-      this.formulario()
-        .get('idDepartamento')
-        ?.disable();
-
+      this.formulario().get('idDepartamento')?.disable();
+      this.paisSeleccionado.emit('');
       return;
-
     }
 
-    this.departamentosFiltrados =
-      this.departamentos().filter(
-        departamento =>
-          departamento.idPais === idPais
-      );
-
-    this.formulario()
-      .get('idDepartamento')
-      ?.enable();
-
+    this.formulario().get('idDepartamento')?.enable();
+    this.paisSeleccionado.emit(idPais);
   }
 
-  cambiarDepartamento(): void {
-
-    const idDepartamento =
-      this.formulario()
-        .get('idDepartamento')
-        ?.value;
-
-    this.formulario()
-      .get('idCiudad')
-      ?.reset('');
+  seleccionarDepartamento(idDepartamento: string): void {
+    this.formulario().get('idDepartamento')?.setValue(idDepartamento);
+    this.formulario().get('idCiudad')?.reset('');
 
     if (!idDepartamento) {
-
-      this.ciudadesFiltradas = [];
-
-      this.formulario()
-        .get('idCiudad')
-        ?.disable();
-
+      this.formulario().get('idCiudad')?.disable();
+      this.departamentoSeleccionado.emit('');
       return;
-
     }
 
-    this.ciudadesFiltradas =
-      this.ciudades().filter(
-        ciudad =>
-          ciudad.idDepartamento === idDepartamento
-      );
+    this.formulario().get('idCiudad')?.enable();
+    this.departamentoSeleccionado.emit(idDepartamento);
+  }
 
-    this.formulario()
-      .get('idCiudad')
-      ?.enable();
-
+  seleccionarCiudad(idCiudad: string): void {
+    this.formulario().get('idCiudad')?.setValue(idCiudad);
   }
 
   campoInvalido(nombreCampo: string): boolean {
-
-    const campo =
-      this.formulario().get(nombreCampo);
-
-    return !!(
-      campo &&
-      campo.invalid &&
-      campo.touched
-    );
-
+    const campo = this.formulario().get(nombreCampo);
+    return !!(campo && campo.invalid && campo.touched);
   }
-
 }

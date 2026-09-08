@@ -108,24 +108,71 @@ export class Registro implements OnInit {
     forkJoin({
       tiposIdentificacion: this.tipoIdentificacionServicio.obtenerTiposIdentificacion(),
       paises: this.paisServicio.obtenerPaises(),
-      departamentos: this.departamentoServicio.obtenerDepartamentos(),
-      ciudades: this.ciudadServicio.obtenerCiudades(),
       marcas: this.marcaServicio.obtenerMarcas()
     })
       .pipe(finalize(() => this.cargandoFormulario.set(false)))
       .subscribe({
         next: (respuesta) => {
-          this.tiposIdentificacion.set(respuesta.tiposIdentificacion.filter(tipo => tipo.activo));
-          this.paises.set(respuesta.paises.filter(pais => pais.activo));
-          this.departamentos.set(respuesta.departamentos.filter(departamento => departamento.activo));
-          this.ciudades.set(respuesta.ciudades.filter(ciudad => ciudad.activo));
-          this.marcas.set(respuesta.marcas.filter(marca => marca.activo));
+          this.tiposIdentificacion.set(
+            respuesta.tiposIdentificacion.filter(tipo => tipo.activo)
+          );
+          this.paises.set(
+            respuesta.paises.filter(pais => pais.activo)
+          );
+          this.marcas.set(
+            respuesta.marcas.filter(marca => marca.activo)
+          );
           this.preseleccionarMarca();
         },
 
         error: (error) => {
           this.errorCargaFormulario.set(true);
           console.error('Error al cargar los datos del formulario:', error);
+        }
+      });
+  }
+
+  cargarDepartamentos(idPais: string): void {
+    this.departamentos.set([]);
+    this.ciudades.set([]);
+
+    if (!idPais) {
+      return;
+    }
+
+    this.departamentoServicio.obtenerDepartamentosPorPais(idPais)
+      .subscribe({
+        next: (respuesta) => {
+          this.departamentos.set(
+            respuesta.filter(departamento => departamento.activo)
+          );
+        },
+
+        error: (error) => {
+          this.departamentos.set([]);
+          console.error('Error al cargar los departamentos:', error);
+        }
+      });
+  }
+
+  cargarCiudades(idDepartamento: string): void {
+    this.ciudades.set([]);
+
+    if (!idDepartamento) {
+      return;
+    }
+
+    this.ciudadServicio.obtenerCiudadesPorDepartamento(idDepartamento)
+      .subscribe({
+        next: (respuesta) => {
+          this.ciudades.set(
+            respuesta.filter(ciudad => ciudad.activo)
+          );
+        },
+
+        error: (error) => {
+          this.ciudades.set([]);
+          console.error('Error al cargar las ciudades:', error);
         }
       });
   }
@@ -156,11 +203,21 @@ export class Registro implements OnInit {
 
     const datos = this.formulario.getRawValue();
 
-    const tipoIdentificacion = this.tiposIdentificacion().find(tipo => tipo.id === datos.idTipoIdentificacion);
-    const pais = this.paises().find(pais => pais.id === datos.idPais);
-    const departamento = this.departamentos().find(departamento => departamento.id === datos.idDepartamento);
-    const ciudad = this.ciudades().find(ciudad => ciudad.id === datos.idCiudad);
-    const marca = this.marcas().find(marca => marca.id === datos.idMarca);
+    const tipoIdentificacion = this.tiposIdentificacion().find(
+      tipo => tipo.id === datos.idTipoIdentificacion
+    );
+    const pais = this.paises().find(
+      pais => pais.id === datos.idPais
+    );
+    const departamento = this.departamentos().find(
+      departamento => departamento.id === datos.idDepartamento
+    );
+    const ciudad = this.ciudades().find(
+      ciudad => ciudad.id === datos.idCiudad
+    );
+    const marca = this.marcas().find(
+      marca => marca.id === datos.idMarca
+    );
 
     this.datosRevision = {
       tipoIdentificacion: tipoIdentificacion?.nombre ?? '',
@@ -222,21 +279,32 @@ export class Registro implements OnInit {
           const mensajeBackend = error.error?.detail || error.error?.message;
 
           if (error.status === 409) {
-            this.errorRegistro.set(mensajeBackend || 'Ya existe un cliente con ese tipo y número de identificación.');
+            this.errorRegistro.set(
+              mensajeBackend ||
+              'Ya existe un cliente con ese tipo y número de identificación.'
+            );
             return;
           }
 
           if (error.status === 400) {
-            this.errorRegistro.set(mensajeBackend || 'Algunos datos del registro no son válidos. Revisa la información e inténtalo nuevamente.');
+            this.errorRegistro.set(
+              mensajeBackend ||
+              'Algunos datos del registro no son válidos. Revisa la información e inténtalo nuevamente.'
+            );
             return;
           }
 
           if (error.status === 404) {
-            this.errorRegistro.set(mensajeBackend || 'Uno de los datos seleccionados ya no se encuentra disponible.');
+            this.errorRegistro.set(
+              mensajeBackend ||
+              'Uno de los datos seleccionados ya no se encuentra disponible.'
+            );
             return;
           }
 
-          this.errorRegistro.set('No fue posible completar el registro. Inténtalo nuevamente.');
+          this.errorRegistro.set(
+            'No fue posible completar el registro. Inténtalo nuevamente.'
+          );
         }
       });
   }
