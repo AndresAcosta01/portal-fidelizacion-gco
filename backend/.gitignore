@@ -31,4 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
-data/
+data/*
+!data/fidelizacion.mv.db
+data/*.trace.db
+data/*.lock.db
