@@ -39,6 +39,23 @@ def enviar_post(session, url, datos):
                 time.sleep(espera)
     raise ultimo_error
 
+def crear_ciudad(session, datos):
+    ultimo_error = None
+    for intento in range(1, REINTENTOS + 1):
+        try:
+            respuesta = session.post(URL_API_CIUDADES, json=datos, timeout=TIMEOUT)
+            if respuesta.status_code == 409:
+                return None, False
+            respuesta.raise_for_status()
+            return respuesta.json(), True
+        except requests.RequestException as error:
+            ultimo_error = error
+            if intento < REINTENTOS:
+                espera = intento * 2
+                print(f"Error enviando ciudad. Reintento {intento}/{REINTENTOS} en {espera}s - {error}")
+                time.sleep(espera)
+    raise ultimo_error
+
 def obtener_o_crear(session, url, datos, registros_por_nombre):
     clave = normalizar_nombre(datos["nombre"])
     registro_encontrado = registros_por_nombre.get(clave)
@@ -170,10 +187,14 @@ def cargar_ubicaciones():
                         datos_ciudad = {"nombre": nombre_ciudad, "activo": True, "idDepartamento": id_departamento}
 
                         try:
-                            respuesta = enviar_post(session, URL_API_CIUDADES, datos_ciudad)
-                            ciudad_creada = respuesta.json()
-                            nombres_existentes.add(normalizar_nombre(ciudad_creada["nombre"]))
-                            ciudades_creadas_departamento += 1
+                            ciudad_creada, creada = crear_ciudad(session, datos_ciudad)
+                            if creada:
+                                nombres_existentes.add(normalizar_nombre(ciudad_creada["nombre"]))
+                                ciudades_creadas_departamento += 1
+                            else:
+                                nombres_existentes.add(clave)
+                                ciudades_existentes_departamento += 1
+                                print("Ciudad ya existente según backend:", nombre_ciudad)
                         except requests.RequestException as error:
                             totales["errores"] += 1
                             print("Error procesando ciudad:", nombre_ciudad, "-", error)
@@ -182,7 +203,6 @@ def cargar_ubicaciones():
                     totales["ciudades_existentes"] += ciudades_existentes_departamento
                     ciudades_creadas_pais += ciudades_creadas_departamento
                     ciudades_existentes_pais += ciudades_existentes_departamento
-
                     print(nombre_departamento, "- ciudades nuevas:", ciudades_creadas_departamento, "- existentes:", ciudades_existentes_departamento)
 
                 print("Resumen país:", nombre_pais)
