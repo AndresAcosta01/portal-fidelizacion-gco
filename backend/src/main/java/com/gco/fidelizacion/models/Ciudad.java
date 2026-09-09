@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.Nationalized;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -20,20 +22,16 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "ciudades",
-        uniqueConstraints = {
-            @UniqueConstraint(
-                name = "uk_ciudad_nombre_departamento",
-                columnNames = {"nombre", "fk_id_departamento"}
-            )
-        }
-)
+@Table(name = "ciudades", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_ciudad_nombre_departamento", columnNames = { "nombre", "fk_id_departamento" })
+})
 public class Ciudad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Nationalized
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
